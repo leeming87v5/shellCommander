@@ -1,0 +1,34 @@
+package shellCommander
+
+type Options struct {
+	Command string
+	Params  []string
+}
+
+func newOptions(options ...Option) Options {
+	opts := Options{
+		Command: "notexisit",
+		Params:  {""},
+	}
+
+	for _, o := range options {
+		o(&opts)
+	}
+
+	return opts
+}
+
+// Command sets the command to be run
+func Command(c string) Option {
+	return func(o *Options) {
+		o.Command = c
+	}
+}
+
+// Params sets the parameters needed to the command
+func Params(p []string) Option {
+	return func(o *Options) {
+		o.Params = make([]string, len(p))
+		copy(o.Params, p)
+	}
+}
