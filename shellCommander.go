@@ -164,3 +164,18 @@ func (this *pipeCmd) Clean() error {
 	}
 	return errc
 }
+
+/*******************************************************************************************************************
+********************************************** shotcuts ************************************************************
+*******************************************************************************************************************/
+
+func RunCmd(cmdline string) (string, string, error) {
+	splits := strings.Split(cmdline, " ")
+	name := splits[0]
+	args := splits[1:]
+	cmd := NewCommand(NoCleanFn, name, args...)
+	pipe := NewPipeCmd(cmd)
+	ctx := context.Background()
+	return pipe.Run(ctx)
+}
+
